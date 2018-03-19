@@ -1,7 +1,12 @@
 #pragma once
 #include "Aria.h"
+#include "Direction.h"
 #include <iostream>
 
+/**
+ * @brief Robotla baglanti icin verilen API
+ * 
+ */
 class PioneerRobotAPI {
 	ArPose pose;
 	ArRobot *robot;
@@ -12,15 +17,8 @@ class PioneerRobotAPI {
 	
 	void updateCB(void);
 public:
-	enum DIRECTION {
-		left = -1,
-		forward = 0,
-		right = 1
-	};
-
 	PioneerRobotAPI();
 	~PioneerRobotAPI();
-
 	/** Used to connect to the robot. Ths function should be called before others.
 	* @return true if the connection is success, otherwise false
 	*/

@@ -1,7 +1,6 @@
-#include "PioneerRobotInterface.h";
+#include "PioneerRobotInterface.h"
 #include "RobotControl.h"
 #include <iostream>
-
 using namespace std;
 
 RobotInterface * Robot = new PioneerRobotInterface();
@@ -37,8 +36,9 @@ int main() {
         }
     }while(MainChoice != 4);
 
-    return 0;s
+    return 0;
 }
+
 void Connection() {
     int SubChoice = 0;
     do{
@@ -57,13 +57,14 @@ void Connection() {
                 break;
             case 2:
                 cout << "<Disconnect>\n";
-                Controller.disconnect();
+                Controller.close();
                 break;
             case 3:
                 cout << "Back to main menu...\n";
         }
     }while(SubChoice != 3);
 }
+
 void Motion() {
     int SubChoice = 0;
     do{
@@ -72,16 +73,18 @@ void Motion() {
         cout << "2. Turn Left\n";
         cout << "3. Turn Right\n";
         cout << "4. Forward\n";
-        cout << "5. Move Distance\n";
-        cout << "6. Close Wall\n";
-        cout << "7. Back\n";
+		cout << "5. Stop\n";
+        cout << "6. Move Distance\n";
+        cout << "7. Close Wall\n";
+        cout << "8. Back\n";
         do {
             cout << "Choose one : ";
             cin >> SubChoice;
-        } while (!(SubChoice < 8 && SubChoice > 0));
+        } while (!(SubChoice < 9 && SubChoice > 0));
         switch(SubChoice) {
             case 1:
                 cout << "<Safe Move>\n";
+                cout << "Robot will try to avoid collision, even though manual checking is recommended.\n";
                 int speed;
                 cout << "Enter speed : ";
                 cin >> speed;
@@ -99,20 +102,28 @@ void Motion() {
                 cout << "<Forward>\n";
                 Controller.forward();
                 break;
-            case 5:
+            case 6:
                 cout << "<Move Distance>\n";
                 float dist;
                 cout << "Enter distance : ";
                 cin >> dist;
                 Controller.moveDistance(dist);
-            case 6:
+				break;
+            case 7:
                 cout << "<Close Wall>\n";
                 Controller.closeWall();
-            case 7:
+				break;
+            case 8:
                 cout << "Back to main menu...\n";
+				break;
+			case 5:
+				cout << "<Stop>\n";
+				Controller.stop();
+				break;
         }
-    }while(SubChoice != 7);
+    }while(SubChoice != 8);
 }
+
 void Sensor() {
     cout << "Sensor Display\n";
     Controller.print();

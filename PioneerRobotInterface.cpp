@@ -1,12 +1,8 @@
 #include "PioneerRobotInterface.h"
 
-PioneerRobotInterface::PioneerRobotInterface() {
-    setRobot(this);
-}
+PioneerRobotInterface::PioneerRobotInterface() { setRobot(this); }
 
-void PioneerRobotInterface::update() {
-    updateRobot();
-}
+void PioneerRobotInterface::update() { updateRobot(); }
 
 void PioneerRobotInterface::updateRobot() {
     position->setX(getX());
@@ -18,24 +14,26 @@ void PioneerRobotInterface::updateRobot() {
     getSonarRange(sranges);
     laserSensor->updateSensor(lranges);
     sonarSensor->updateSensor(sranges);
+    //Carpisma engelleme
+    if(!CollisionSafe) {
+        cout << "<Collision Danger!>\n";
+        stop();
+    }
 }
 
-void PioneerRobotInterface::turn(DIRECTION dir) {
-    turnRobot(dir);
-}
+void PioneerRobotInterface::turn(DIRECTION dir) { turnRobot(dir); }
 
-bool PioneerRobotInterface::open() {
-    return connect();
-}
+bool PioneerRobotInterface::open() { connect(); return true; }
 
-void PioneerRobotInterface::move(float speed) {
-    moveRobot(speed);
-}
+void PioneerRobotInterface::move(float speed) { moveRobot(speed); }
 
-bool PioneerRobotInterface::close() {
-    return disconnect();
-}
+bool PioneerRobotInterface::close() { disconnect(); return true; }
 
-void PioneerRobotInterface::stop() {
-    stopRobot();
+void PioneerRobotInterface::stop() { stopRobot(); }
+
+bool PioneerRobotInterface::CollisionSafe() { 
+    for(int i = 0;i<16;i++)
+    if(sensor[0]->getRange(i) <= 200) 
+        return false;
+    return true;
 }
